@@ -31,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   primary = false,
   size = 'medium',
   backgroundColor,
-  children,
+  label,
   ...props
 }) => {
   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
@@ -42,7 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
       style={{ backgroundColor }}
       {...props}
     >
-      {children}
+      {label}
     </button>
   );
 };

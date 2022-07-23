@@ -9,6 +9,9 @@
     "ui"
   ],
   "scripts": {
-    "start": "yarn workspace app start"
+    "start": "yarn workspace app start",
+    "start:ui": "yarn workspace @vite-workspaces/ui start",
+    "dev": "yarn start",
+    "build": "yarn workspace app build"
   }
 }

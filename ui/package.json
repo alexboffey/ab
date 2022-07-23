@@ -2,11 +2,8 @@
   "name": "@vite-workspaces/ui",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "start":"yarn storybook:start",
     "storybook:start": "start-storybook -p 6006",
     "storybook:build": "build-storybook"
   },
