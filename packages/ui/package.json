@@ -1,9 +1,9 @@
 {
-  "name": "@vite-workspaces/ui",
+  "name": "@ws/ui",
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start":"yarn storybook:start",
+    "start": "yarn storybook:start",
     "storybook:start": "start-storybook -p 6006",
     "storybook:build": "build-storybook"
   },
