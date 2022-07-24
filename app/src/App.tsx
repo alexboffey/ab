@@ -1,15 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import {Button} from "@vite-workspaces/ui"
+import { useEffect, useState } from "react";
+import { Button } from "@vite-workspaces/ui";
+import { Query } from "@vite-workspace/query";
 
+import reactLogo from "./assets/react.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [val, setVal] = useState(0);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    Query.of(async () => 1)
+      .chain(async (v) => v + 1)
+      .chain(async (v) => v + 2)
+      .resolve()
+      .then(setVal);
+  }, []);
 
   return (
     <div className="App">
-      <Button backgroundColor='white' label='Hey' />
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
@@ -20,9 +29,12 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <p>Val: {val}</p>
+        <Button
+          backgroundColor="white"
+          label={`count is ${count}`}
+          onClick={() => setCount((count) => count + 1)}
+        ></Button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -31,7 +43,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

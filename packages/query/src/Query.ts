@@ -39,5 +39,5 @@ const query = <T>(input: Input<T>, all: Input<T>[]) => {
 
 // API to expose async util
 export const Query = {
-  of: <T>(input: () => Promise<T>) => query(input, [input]),
+  of: <T extends unknown>(input: () => Promise<T>) => query(input, [input]),
 };
