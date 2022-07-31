@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button } from "@ws/ui";
-import { Query } from "@ws/query";
+import { Button } from "@ab/ui";
+import { Query } from "@ab/query";
 
 function App() {
   const [val, setVal] = useState({});

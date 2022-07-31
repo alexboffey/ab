@@ -6,13 +6,20 @@
   "private": "true",
   "workspaces": [
     "app",
-    "server",
+    "api",
     "packages/*"
   ],
   "scripts": {
     "start": "yarn workspace app start",
-    "start:ui": "yarn workspace @ws/ui start",
-    "dev": "yarn start",
+    "start:ui": "yarn workspace @ab/ui start",
+    "start:server": "yarn workspace api start",
+    "dev": "concurrently -k -p @ab -c \"blueBright\" \"yarn workspace api dev\" \"wait-on http://localhost:4444/ && yarn workspace app dev\"",
     "build": "yarn workspace app build"
+  },
+  "devDependencies": {
+    "concurrently": "^7.3.0"
+  },
+  "dependencies": {
+    "wait-on": "^6.0.1"
   }
 }
