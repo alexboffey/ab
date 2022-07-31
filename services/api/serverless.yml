@@ -1,0 +1,18 @@
+org: alexboffey
+app: alexboffey
+service: api
+frameworkVersion: "3"
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  deploymentMethod: direct
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: "*"
