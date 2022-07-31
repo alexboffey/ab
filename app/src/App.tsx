@@ -7,21 +7,16 @@ function App() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    Query.of<any>(async () => [
-      fetch("/api/users").then((r) => r.json()),
-      fetch("/api/posts").then((r) => r.json()),
-    ])
-      .chain((v) => Promise.all(v))
-      .resolve()
-      .then(setVal);
-  }, []);
+    fetch("/api")
+      .then((r) => r.json())
+      .then((d) => console.log({ d }));
+  });
 
   return (
     <div className="App">
       <pre>
         <code> {JSON.stringify(val, null, 2)}</code>
       </pre>
-
       <Button
         backgroundColor="white"
         label={`count is ${count}`}
