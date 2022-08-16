@@ -25,3 +25,21 @@ model Post {
   author    User    @relation(fields: [authorId], references: [id])
   authorId  Int
 }
+
+model PokemonType {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Pokemon {
+  id              Int    @id @default(autoincrement())
+  name            String
+  typeId          Int
+  height          String
+  weight          String
+  candy           String
+  candy_count     String
+  spawn_chance    Int
+  avg_spawns      Int
+  spawn_time      String
+}
