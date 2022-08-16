@@ -7,10 +7,11 @@
   "workspaces": [
     "app",
     "api",
-    "packages/*"
+    "packages/*",
+    "services/*"
   ],
   "scripts": {
-    "start": "yarn workspace app start",
+    "start": "yarn dev",
     "start:ui": "yarn workspace @ab/ui start",
     "start:server": "yarn workspace api start",
     "dev": "concurrently -k -p @ab -c \"blueBright\" \"yarn workspace api dev\" \"wait-on http://localhost:4444/ && yarn workspace app dev\"",

@@ -9,7 +9,8 @@ function App() {
   useEffect(() => {
     fetch("/api")
       .then((r) => r.json())
-      .then((d) => console.log({ d }));
+      .then((r) => setVal(r));
+    // .then((d) => console.log({ d }))
   });
 
   return (

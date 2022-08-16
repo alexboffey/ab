@@ -9,6 +9,8 @@ app.get("/", async (_, res) => {
   res.json({ hey: "there" });
 });
 
+app.get("/pokemon", () => {});
+
 app.get("/users", async (_, res) => {
   const [users] = await Promise.all([prisma.user.findMany()]);
 
