@@ -5,7 +5,7 @@
   "module": "nodenext",
   "scripts": {
     "start": "ts-node ./index.ts",
-    "dev": "concurrently -p \"{name}\" -c \"bgGreen,bgBlue\" --n \"API,Data\" \"nodemon ./index.ts\" \"prisma studio\"",
+    "dev": "nodemon ./index.ts",
     "studio": "prisma studio --browser none",
     "migrate:dev": "prisma migrate dev"
   },
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.1.1",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "lodash": "^4.17.21"
   }
 }

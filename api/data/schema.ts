@@ -16,10 +16,10 @@ export interface Pokemon {
   spawn_chance: number;
   avg_spawns: number;
   spawn_time: string;
-  // multipliers: number[] | null;
-  // weaknesses: Type[];
-  // next_evolution?: Evolution[];
-  // prev_evolution?: Evolution[];
+  multipliers: number[] | null;
+  weaknesses: Type[];
+  next_evolution?: Evolution[];
+  prev_evolution?: Evolution[];
 }
 
 export enum Egg {
