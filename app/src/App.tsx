@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import { Button } from "@ab/ui";
-import { Query } from "@ab/query";
 
 function App() {
   const [val, setVal] = useState({});
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    fetch("/api")
+    fetch("/api/pokemon")
       .then((r) => r.json())
       .then((r) => setVal(r));
-    // .then((d) => console.log({ d }))
   });
 
   return (
     <div className="App">
-      <pre>
+      <pre
+        style={{ height: "20rem", overflowY: "scroll", background: "#f8f1f1" }}
+      >
         <code> {JSON.stringify(val, null, 2)}</code>
       </pre>
       <Button
