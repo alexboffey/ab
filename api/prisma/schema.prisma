@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -32,14 +25,14 @@ model PokemonType {
 }
 
 model Pokemon {
-  id              Int    @id @default(autoincrement())
-  name            String
-  typeId          Int
-  height          String
-  weight          String
-  candy           String
-  candy_count     String
-  spawn_chance    Int
-  avg_spawns      Int
-  spawn_time      String
+  id           Int    @id @default(autoincrement())
+  name         String
+  typeId       Int
+  height       String
+  weight       String
+  candy        String
+  candy_count  String
+  spawn_chance Int
+  avg_spawns   Int
+  spawn_time   String
 }
