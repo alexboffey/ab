@@ -1,9 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
-import { uniq } from "lodash";
-// import { uniq } from "lodash";
-import { pokemon } from "./data/mock";
-// import { Type } from "./data/schema";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -14,19 +10,21 @@ app.get("/", async (_, res) => {
 });
 
 app.get("/pokemon", async (_, res) => {
-  const data = await prisma.pokemon.findMany();
-  res.json({ data });
-});
-
-app.get("/pokemon/:id", (req, res) => {
-  const data = pokemon.pokemon.find((p) => p.id === parseInt(req.params.id));
-  // const [users] = await Promise.all([prisma.user.findMany()]);
+  const data = await prisma.pokemon.findMany()
 
   res.json({ data });
 });
 
-app.get("/types", (_, res) => {
-  const data = uniq(pokemon.pokemon.map((p) => p.type).flat());
+app.get("/pokemon/:id", async (req, res) => {
+  const data = await prisma.pokemon.findFirst({
+    where: { id: parseInt(req.params.id, 10) },
+  });
+
+  res.json({ data });
+});
+
+app.get("/types", async (_, res) => {
+  const data = await prisma.type.findMany()
 
   res.json({ data });
 });
@@ -35,12 +33,6 @@ app.get("/users", async (_, res) => {
   const [users] = await Promise.all([prisma.user.findMany()]);
 
   res.json({ users });
-});
-
-app.get("/posts", async (_, res) => {
-  const [posts] = await Promise.all([prisma.post.findMany()]);
-
-  res.json({ posts });
 });
 
 app.listen(process.env.PORT, () =>
