@@ -1,6 +1,12 @@
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 model User {
@@ -19,20 +25,38 @@ model Post {
   authorId  Int
 }
 
-model PokemonType {
-  id   Int    @id @default(autoincrement())
-  name String
-}
-
 model Pokemon {
-  id           Int    @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
+  num          String
   name         String
-  typeId       Int
+  img          String
   height       String
   weight       String
   candy        String
   candy_count  String
+  egg          String
   spawn_chance Int
   avg_spawns   Int
   spawn_time   String
+  type         PokemonType[]
+  // multipliers 
+  // weaknesses
+  // next_evolution
+  // prev_evolution
+}
+
+model Type {
+  id        Int           @id @default(autoincrement())
+  name      String
+  pokemonId Int
+  pokemon   PokemonType[]
+}
+
+model PokemonType {
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+  pokemonId Int // relation scalar field (used in the `@relation` attribute above)
+  type      Type    @relation(fields: [typeId], references: [id])
+  typeId    Int // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([pokemonId, typeId])
 }

@@ -13,13 +13,14 @@ app.get("/", async (_, res) => {
   res.json({ hey: "there" });
 });
 
-app.get("/pokemon", (_, res) => {
-  // console.log(pokemonData);
-  res.json({ data: pokemon });
+app.get("/pokemon", async (_, res) => {
+  const data = await prisma.pokemon.findMany();
+  res.json({ data });
 });
 
 app.get("/pokemon/:id", (req, res) => {
   const data = pokemon.pokemon.find((p) => p.id === parseInt(req.params.id));
+  // const [users] = await Promise.all([prisma.user.findMany()]);
 
   res.json({ data });
 });
