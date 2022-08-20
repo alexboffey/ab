@@ -26,11 +26,11 @@ function App() {
                   key={poke.id}
                   className="bg-white shadow-lg rounded p-10"
                 >
-                  <header key={poke.id} className="flex items-center pb-5">
+                  <header key={poke.id} className="pb-5">
                     <p className="text-2xl font-bold leading-loose tracking-wider">
                       {poke.name}
                     </p>
-                    <p className="ml-auto">#{poke.num}</p>
+                    <p className="ml-auto leading-none">#{poke.num}</p>
                   </header>
                   <main className="flex items-center justify-center">
                     <img
