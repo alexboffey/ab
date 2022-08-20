@@ -10,11 +10,12 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id      Int       @id @default(autoincrement())
+  email   String    @unique
+  name    String?
   // Boolean example
   // isAdmin Boolean
+  pokemon Pokemon[]
 }
 
 model Pokemon {
@@ -39,6 +40,8 @@ model Pokemon {
   previous_evolutions Pokemon[]  @relation("previous_evolutions")
   prev_evolution      Pokemon?   @relation("previous_evolutions", fields: [prev_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   prev_evolution_id   String?
+  User                User?      @relation(fields: [userId], references: [id])
+  userId              Int?
 }
 
 enum TypeName {
