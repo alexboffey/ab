@@ -6,9 +6,10 @@
   "scripts": {
     "start": "ts-node ./index.ts",
     "dev": "nodemon ./index.ts",
+    "dev:prisma": "prisma studio --browser none",
     "db": "pscale connect pokemon init --port 3309",
-    "studio": "prisma studio --browser none",
-    "migrate:dev": "prisma migrate dev"
+    "migrate:dev": "prisma migrate dev",
+    "migrate": "prisma migrate deploy && prisma db push && prisma generate"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

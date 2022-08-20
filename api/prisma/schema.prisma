@@ -13,77 +13,69 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+  // Boolean example
+  // isAdmin Boolean
 }
 
 model Pokemon {
-  id              Int                 @id @default(autoincrement())
-  num             String
-  name            String
-  img             String
-  height          String
-  weight          String
-  candy           String
-  candy_count     String
-  egg             String
-  spawn_chance    Float
-  avg_spawns      Int
-  spawn_time      String
-  types           PokemonType[]
-  multipliers     PokemonMultiplier[]
-  weaknesses      PokemonWeakness[]
-  evolutions Pokemon[] @relation("evolutions")
-  next_evolution   Pokemon?   @relation("evolutions", fields: [next_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  next_evolution_id Int?    
-  prevolutions Pokemon[] @relation("prevolutions")
-  prev_evolution   Pokemon?   @relation("prevolutions", fields: [prev_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  prev_evolution_id Int?    
+  id                  String     @id @default(uuid())
+  num                 String     @unique
+  name                String     @unique
+  height              String
+  weight              String
+  candy               Candy
+  candy_count         String
+  egg                 String
+  spawn_chance        Float
+  avg_spawns          Float
+  spawn_time          String
+  // One to Many
+  types               Type[]
+  weaknesses          Weakness[]
+  // Self Reference 
+  evolutions          Pokemon[]  @relation("evolutions")
+  next_evolution      Pokemon?   @relation("evolutions", fields: [next_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  next_evolution_id   String?
+  previous_evolutions Pokemon[]  @relation("previous_evolutions")
+  prev_evolution      Pokemon?   @relation("previous_evolutions", fields: [prev_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  prev_evolution_id   String?
+}
 
+enum TypeName {
+  Bug
+  Dark
+  Dragon
+  Electric
+  Fairy
+  Fighting
+  Fire
+  Flying
+  Ghost
+  Grass
+  Ground
+  Ice
+  Normal
+  Poison
+  Psychic
+  Rock
+  Steel
+  Water
 }
 
 model Type {
-  id        Int           @id @default(autoincrement())
-  name      String
-  pokemonId Int
-  pokemon   PokemonType[]
-}
-
-model PokemonType {
-  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
-  pokemonId Int
-  type      Type    @relation(fields: [typeId], references: [id])
-  typeId    Int
-
-  @@id([pokemonId, typeId])
-}
-
-model Multiplier {
-  id         Int                 @id @default(autoincrement())
-  multiplier Float
-  pokemonId  Int
-  pokemon    PokemonMultiplier[]
-}
-
-model PokemonMultiplier {
-  pokemon      Pokemon    @relation(fields: [pokemonId], references: [id])
-  pokemonId    Int
-  multiplier   Multiplier @relation(fields: [multiplierId], references: [id])
-  multiplierId Int
-
-  @@id([pokemonId, multiplierId])
+  id        Int      @id @default(autoincrement())
+  name      TypeName
+  pokemon   Pokemon  @relation(fields: [pokemonId], references: [id])
+  pokemonId String
 }
 
 model Weakness {
-  id        Int               @id @default(autoincrement())
-  name      String
-  pokemonId Int
-  pokemon   PokemonWeakness[]
+  id        Int      @id @default(autoincrement())
+  name      TypeName
+  pokemon   Pokemon  @relation(fields: [pokemonId], references: [id])
+  pokemonId String
 }
 
-model PokemonWeakness {
-  pokemon    Pokemon  @relation(fields: [pokemonId], references: [id])
-  pokemonId  Int
-  weakness   Weakness @relation(fields: [weaknessId], references: [id])
-  weaknessId Int
-
-  @@id([pokemonId, weaknessId])
+enum Candy {
+  BulbasaurCandy
 }
