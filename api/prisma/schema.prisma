@@ -1,12 +1,12 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
-}
-
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
 }
 
 model User {
@@ -25,14 +25,10 @@ model Pokemon {
   candy        String
   candy_count  String
   egg          String
-  spawn_chance Float @default(0)
+  spawn_chance Float         @default(0)
   avg_spawns   Int
   spawn_time   String
   type         PokemonType[]
-  // multipliers 
-  // weaknesses
-  // next_evolution
-  // prev_evolution
 }
 
 model Type {
@@ -44,9 +40,9 @@ model Type {
 
 model PokemonType {
   pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
-  pokemonId Int // relation scalar field (used in the `@relation` attribute above)
+  pokemonId Int
   type      Type    @relation(fields: [typeId], references: [id])
-  typeId    Int // relation scalar field (used in the `@relation` attribute above)
+  typeId    Int
 
   @@id([pokemonId, typeId])
 }
