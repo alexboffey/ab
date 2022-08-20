@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { trpc } from "./utils/trpc";
 

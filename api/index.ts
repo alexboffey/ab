@@ -11,7 +11,7 @@ const port = process.env.port || 4444;
 const createContext = () => ({}); // no context
 // type Context = trpc.inferAsyncReturnType<typeof createContext>;
 
-app.use(cors());
+app.use(cors({ origin: "http://127.0.0.1:3333" }));
 
 app.use(
   "/trpc",
