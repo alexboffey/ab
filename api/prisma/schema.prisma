@@ -78,4 +78,8 @@ model Weakness {
 
 enum Candy {
   BulbasaurCandy
+  CharmanderCandy
+  SquirtleCandy
+  CaterpieCandy
+  WeedleCandy
 }

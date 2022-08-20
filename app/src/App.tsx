@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { trpc } from "./utils/trpc";
+import json from "../../api/data/pokemon.json";
 
 const trpcClient = trpc.createClient({
   url: "http://localhost:4444/trpc",
@@ -10,6 +11,8 @@ const queryClient = new QueryClient();
 function App() {
   const pokemon = trpc.useQuery(["pokemon"]);
 
+  console.log({ json });
+
   return (
     <main className="bg-slate-100 p-8 h-full">
       {pokemon.isLoading && <p>Loading...</p>}
@@ -19,7 +22,7 @@ function App() {
             <p>Showing {pokemon.data.length} Pokemon</p>
           </header>
 
-          <main className="grid grid-cols-4 gap-8 ">
+          <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 ">
             {pokemon.data.map((poke) => {
               return (
                 <article
@@ -34,11 +37,16 @@ function App() {
                   </header>
                   <main className="flex items-center justify-center">
                     <img
-                      className="max-h-[12rem]"
+                      style={{ maxHeight: `${Number(poke.height) * 6}rem` }}
                       src={poke.img}
                       alt={poke.name}
                     />
                   </main>
+                  <footer>
+                    <pre className="h-[10rem]  overflow-scroll text-sm bg-slate-100 p-3">
+                      <code>{JSON.stringify(poke, null, 2)}</code>
+                    </pre>
+                  </footer>
                 </article>
               );
             })}
