@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { PokemonWithImages } from "../../api/";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { trpc } from "./utils/trpc";
+
+const trpcClient = trpc.createClient({
+  url: "http://localhost:4444/trpc",
+});
+const queryClient = new QueryClient();
 
 function App() {
-  const [pokemon, setPokemon] = useState<PokemonWithImages[]>([]);
+  const hello = trpc.useQuery(["hello", { text: "client" }]);
+  const [pokemon, setPokemon] = useState<any[]>([]);
 
   useEffect(() => {
     fetch("/api/pokemon")
@@ -12,6 +19,9 @@ function App() {
 
   return (
     <div>
+      <pre>
+        <code>{JSON.stringify(hello)}</code>
+      </pre>
       <p>Number of Pokemon: {pokemon.length}</p>
       <div className="grid grid-cols-4 gap-8 bg-slate-100 p-8">
         {pokemon.map((poke) => {
@@ -34,4 +44,14 @@ function App() {
   );
 }
 
-export default App;
+const WrappedApp = () => {
+  return (
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </trpc.Provider>
+  );
+};
+
+export default WrappedApp;

@@ -29,9 +29,13 @@ app.get("/pokemon", async (_, res) => {
 });
 
 app.get("/pokemon/:id", async (req, res) => {
-  const data = await prisma.pokemon.findFirst({ where: { id: req.params.id } });
+  const p = await prisma.pokemon.findFirst({ where: { id: req.params.id } });
 
-  res.status(200).json({ data });
+  if (!p) {
+    res.status(404).send("No pokemon with");
+  }
+
+  res.status(200).json({ data: p });
 });
 
 app.get("/types", async (_, res) => {
