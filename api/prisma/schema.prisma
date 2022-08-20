@@ -16,19 +16,28 @@ model User {
 }
 
 model Pokemon {
-  id           Int           @id @default(autoincrement())
-  num          String
-  name         String
-  img          String
-  height       String
-  weight       String
-  candy        String
-  candy_count  String
-  egg          String
-  spawn_chance Float         @default(0)
-  avg_spawns   Int
-  spawn_time   String
-  type         PokemonType[]
+  id              Int                 @id @default(autoincrement())
+  num             String
+  name            String
+  img             String
+  height          String
+  weight          String
+  candy           String
+  candy_count     String
+  egg             String
+  spawn_chance    Float
+  avg_spawns      Int
+  spawn_time      String
+  types           PokemonType[]
+  multipliers     PokemonMultiplier[]
+  weaknesses      PokemonWeakness[]
+  evolutions Pokemon[] @relation("evolutions")
+  next_evolution   Pokemon?   @relation("evolutions", fields: [next_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  next_evolution_id Int?    
+  prevolutions Pokemon[] @relation("prevolutions")
+  prev_evolution   Pokemon?   @relation("prevolutions", fields: [prev_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  prev_evolution_id Int?    
+
 }
 
 model Type {
@@ -45,4 +54,36 @@ model PokemonType {
   typeId    Int
 
   @@id([pokemonId, typeId])
+}
+
+model Multiplier {
+  id         Int                 @id @default(autoincrement())
+  multiplier Float
+  pokemonId  Int
+  pokemon    PokemonMultiplier[]
+}
+
+model PokemonMultiplier {
+  pokemon      Pokemon    @relation(fields: [pokemonId], references: [id])
+  pokemonId    Int
+  multiplier   Multiplier @relation(fields: [multiplierId], references: [id])
+  multiplierId Int
+
+  @@id([pokemonId, multiplierId])
+}
+
+model Weakness {
+  id        Int               @id @default(autoincrement())
+  name      String
+  pokemonId Int
+  pokemon   PokemonWeakness[]
+}
+
+model PokemonWeakness {
+  pokemon    Pokemon  @relation(fields: [pokemonId], references: [id])
+  pokemonId  Int
+  weakness   Weakness @relation(fields: [weaknessId], references: [id])
+  weaknessId Int
+
+  @@id([pokemonId, weaknessId])
 }
