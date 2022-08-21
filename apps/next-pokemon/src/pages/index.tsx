@@ -1,21 +1,25 @@
-import { trpc } from '../utils/trpc';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { Debug } from '@ab/debug';
+import { trpc } from "../utils/trpc";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
+import { Icon } from "components/Icon";
 
 export default function IndexPage() {
-  const pokemon = trpc.useQuery(['pokemon']);
+  const pokemon = trpc.useQuery(["pokemon"]);
   const { data: session } = useSession();
 
+  const currentUser = trpc.useQuery(["currentUser"]);
+
+  const currentUserPokemon = currentUser.data?.pokemon;
+
   return (
-    <main className="bg-slate-100 p-8 h-full">
-      <Debug debug={session} />
+    <main className="bg-slate-100 p-8 min-h-screen">
       <header className="flex items-center">
         <h1 className="text-3xl font-bold text-gray-800">Pokemon</h1>
         <nav className="ml-auto">
           {!session?.user && (
             <>
               <button
-                onClick={() => signIn('github')}
+                onClick={() => signIn("github")}
                 data-testid="signin"
                 className="px-4 bg-slate-300 rounded h-full"
               >
@@ -25,53 +29,57 @@ export default function IndexPage() {
           )}
           {!!session?.user && (
             <div className="flex flex-col">
-              <div className="flex items-center">
-                <p className="mr-4">{session.user.name}</p>
-                {session.user.image && (
-                  <img
-                    className="w-8 h-8 rounded-full shadow-md"
-                    referrerPolicy="no-referrer"
-                    src={session.user.image}
-                  />
-                )}
-              </div>
+              <Link href="/user">
+                <div className="flex items-center cursor-pointer">
+                  <p className="mr-4">{session.user.name}</p>
+                  {session.user.image && (
+                    <img
+                      className="w-8 h-8 rounded-full shadow-md"
+                      referrerPolicy="no-referrer"
+                      src={session.user.image}
+                    />
+                  )}
+                </div>
+              </Link>
             </div>
           )}
         </nav>
       </header>
-
       {pokemon.isLoading && <p>Loading...</p>}
       {pokemon.data && (
         <>
           <header className="py-10">
-            <p>Showing {pokemon.data.length} Pokemon</p>
+            <p>Showing all {pokemon.data.length} Pokemon</p>
           </header>
-          <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 ">
+          <main className="grid grid-flow grid-cols-6 items-stretch">
             {pokemon.data.map((poke) => {
               return (
-                <article
-                  key={poke.id}
-                  className="bg-white shadow-lg rounded p-10"
-                >
-                  <header key={poke.id} className="pb-5">
-                    <p className="text-2xl font-bold leading-loose tracking-wider">
+                <main className="min-h-[8rem] flex flex-col flex-wrap items-center py-8 relative">
+                  <div className="relative p-4">
+                    {(currentUser.data?.pokemon ?? [])
+                      .map((p) => p.id)
+                      .includes(poke.id) ? (
+                      <Icon
+                        className="text-green-600 absolute bottom-4 right-4"
+                        name="pokeball"
+                      />
+                    ) : (
+                      <Icon
+                        className="text-slate-900 absolute bottom-4 right-4"
+                        name="pokeball"
+                      />
+                    )}
+                    <img src={poke.thumbnail} alt={poke.name} />
+                  </div>
+                  <p className="mt-auto">
+                    <span className="text-sm font-medium leading-loose tracking-wider">
                       {poke.name}
-                    </p>
-                    <p className="ml-auto leading-none">#{poke.num}</p>
-                  </header>
-                  <main className="flex items-center justify-center">
-                    <img
-                      style={{ maxHeight: `${Number(poke.height) * 6}rem` }}
-                      src={poke.img}
-                      alt={poke.name}
-                    />
-                  </main>
-                  <footer>
-                    {/* <pre className="h-[10rem]  overflow-scroll text-sm bg-slate-100 p-3">
-                      <code>{JSON.stringify(poke, null, 2)}</code>
-                    </pre> */}
-                  </footer>
-                </article>
+                    </span>
+                    <span className="block leading-none text-xs font-medium text-slate-700">
+                      #{poke.num}
+                    </span>
+                  </p>
+                </main>
               );
             })}
           </main>

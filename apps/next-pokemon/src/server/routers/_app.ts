@@ -1,13 +1,14 @@
-import { Pokemon } from '@prisma/client';
-import { createRouter } from '../createRouter';
+import { Pokemon } from "@prisma/client";
+import { createRouter } from "../createRouter";
 // import { postRouter } from './post';
 // import { Subscription } from '@trpc/server';
 // import superjson from 'superjson';
 // import { clearInterval } from 'timers';
-import { prisma } from '../context';
+import { prisma } from "../context";
+import { z } from "zod";
 
 const imageSrc =
-  'https://raw.githubusercontent.com/fanzeyi/pokemon.json/master';
+  "https://raw.githubusercontent.com/fanzeyi/pokemon.json/master";
 
 const withImages = (p: Pokemon) => {
   return {
@@ -26,13 +27,38 @@ const withImages = (p: Pokemon) => {
  */
 export const appRouter = createRouter()
   // Add data transformers @link https://trpc.io/docs/data-transformers
-  .query('pokemon', {
+  .query("pokemon", {
     resolve: async () => {
       const data = await prisma.pokemon.findMany();
 
       return data
         .map((p) => withImages(p))
         .sort((a, b) => parseInt(a.num) - parseInt(b.num));
+    },
+  })
+  .query("currentUser", {
+    resolve: async ({ ctx }) => {
+      const currentUser = await prisma.user.findUnique({
+        where: { email: ctx.session?.user?.email },
+      });
+      if (!currentUser?.id) {
+        throw new Error("user doesnt have an id");
+      }
+      const currentUserPokemon = await prisma.userPokemon.findUnique({
+        where: { userId: currentUser.id },
+      });
+      const p = await prisma.pokemon.findMany({
+        where: { UserPokemon: { id: currentUserPokemon?.id ?? "" } },
+      });
+
+      return { ...currentUser, pokemon: p.map(withImages) };
+    },
+  })
+  .query("users", {
+    resolve: async () => {
+      const users = await prisma.user.findMany();
+
+      return users;
     },
   });
 

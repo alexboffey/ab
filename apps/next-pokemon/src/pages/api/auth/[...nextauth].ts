@@ -1,6 +1,6 @@
-import NextAuth from 'next-auth';
-import { AppProviders } from 'next-auth/providers';
-import GoogleProvider from 'next-auth/providers/google';
+import NextAuth from "next-auth";
+import { AppProviders } from "next-auth/providers";
+import GoogleProvider from "next-auth/providers/google";
 
 // import CredentialsProvider from 'next-auth/providers/credentials';
 

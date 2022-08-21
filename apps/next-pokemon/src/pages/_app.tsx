@@ -1,12 +1,12 @@
-import '../styles/global.css';
-import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
-import { loggerLink } from '@trpc/client/links/loggerLink';
-import { wsLink, createWSClient } from '@trpc/client/links/wsLink';
-import { withTRPC } from '@trpc/next';
-import { getSession, SessionProvider } from 'next-auth/react';
-import getConfig from 'next/config';
-import { AppType } from 'next/dist/shared/lib/utils';
-import type { AppRouter } from 'server/routers/_app';
+import "../styles/global.css";
+import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
+import { loggerLink } from "@trpc/client/links/loggerLink";
+import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
+import { withTRPC } from "@trpc/next";
+import { getSession, SessionProvider } from "next-auth/react";
+import getConfig from "next/config";
+import { AppType } from "next/dist/shared/lib/utils";
+import type { AppRouter } from "server/routers/_app";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_URL, WS_URL } = publicRuntimeConfig;
@@ -28,7 +28,7 @@ MyApp.getInitialProps = async ({ ctx }) => {
 };
 
 function getEndingLink() {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return httpBatchLink({
       url: `${APP_URL}/api/trpc`,
     });
@@ -50,9 +50,9 @@ export default withTRPC<AppRouter>({
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
           enabled: (opts) =>
-            (process.env.NODE_ENV === 'development' &&
-              typeof window !== 'undefined') ||
-            (opts.direction === 'down' && opts.result instanceof Error),
+            (process.env.NODE_ENV === "development" &&
+              typeof window !== "undefined") ||
+            (opts.direction === "down" && opts.result instanceof Error),
         }),
         getEndingLink(),
       ],
@@ -64,7 +64,7 @@ export default withTRPC<AppRouter>({
           // on ssr, forward client's headers to the server
           return {
             ...ctx.req.headers,
-            'x-ssr': '1',
+            "x-ssr": "1",
           };
         }
         return {};
