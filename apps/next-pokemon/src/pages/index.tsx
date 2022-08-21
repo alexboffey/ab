@@ -6,9 +6,37 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 
 export default function IndexPage() {
   const pokemon = trpc.useQuery(['pokemon']);
+  const { data: session } = useSession();
 
   return (
     <main className="bg-slate-100 p-8 h-full">
+      <header className="flex items-center">
+        <h1 className="text-3xl font-bold text-gray-800">Pokemon</h1>
+        <nav className="ml-auto">
+          {!session?.user && (
+            <button
+              onClick={() => signIn()}
+              data-testid="signin"
+              className="px-4 bg-slate-300 rounded h-full"
+            >
+              Sign In
+            </button>
+          )}
+          {!!session?.user && (
+            <div className="flex items-center">
+              <p className="mr-5">Signed in as {session.user.name}</p>
+              <button
+                onClick={() => signOut()}
+                data-testid="signout"
+                className="px-4 bg-slate-300 rounded h-full"
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+        </nav>
+      </header>
+
       {pokemon.isLoading && <p>Loading...</p>}
       {pokemon.data && (
         <>

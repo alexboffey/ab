@@ -3,10 +3,10 @@
  */
 import { Pokemon } from '@prisma/client';
 import { createRouter } from '../createRouter';
-import { postRouter } from './post';
-import { Subscription } from '@trpc/server';
-import superjson from 'superjson';
-import { clearInterval } from 'timers';
+// import { postRouter } from './post';
+// import { Subscription } from '@trpc/server';
+// import superjson from 'superjson';
+// import { clearInterval } from 'timers';
 import { prisma } from '../context';
 
 const imageSrc =
@@ -28,35 +28,7 @@ const withImages = (p: Pokemon) => {
  * @link https://trpc.io/docs/router
  */
 export const appRouter = createRouter()
-  /**
-   * Add data transformers
-   * @link https://trpc.io/docs/data-transformers
-   */
-  // .transformer(superjson)
-  /**
-   * Optionally do custom error (type safe!) formatting
-   * @link https://trpc.io/docs/error-formatting
-   */
-  // .formatError(({ shape, error }) => { })
-  // .query('healthz', {
-  //   resolve() {
-  //     return 'yay!';
-  //   },
-  // })
-  // .merge('post.', postRouter)
-  // .subscription('randomNumber', {
-  //   resolve() {
-  //     return new Subscription<number>((emit) => {
-  //       const int = setInterval(() => {
-  //         emit.data(Math.random());
-  //       }, 500);
-  //       return () => {
-  //         clearInterval(int);
-  //       };
-  //     });
-  //   },
-  // })
-
+  // Add data transformers @link https://trpc.io/docs/data-transformers
   .query('pokemon', {
     resolve: async () => {
       const data = await prisma.pokemon.findMany();
@@ -66,5 +38,30 @@ export const appRouter = createRouter()
         .sort((a, b) => parseInt(a.num) - parseInt(b.num));
     },
   });
+
+/**
+ * Optionally do custom error (type safe!) formatting
+ * @link https://trpc.io/docs/error-formatting
+ */
+// .transformer(superjson)
+// .formatError(({ shape, error }) => { })
+// .query('healthz', {
+//   resolve() {
+//     return 'yay!';
+//   },
+// })
+// .merge('post.', postRouter)
+// .subscription('randomNumber', {
+//   resolve() {
+//     return new Subscription<number>((emit) => {
+//       const int = setInterval(() => {
+//         emit.data(Math.random());
+//       }, 500);
+//       return () => {
+//         clearInterval(int);
+//       };
+//     });
+//   },
+// })
 
 export type AppRouter = typeof appRouter;
