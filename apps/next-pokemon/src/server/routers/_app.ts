@@ -1,6 +1,3 @@
-/**
- * This file contains the root router of your tRPC-backend
- */
 import { Pokemon } from '@prisma/client';
 import { createRouter } from '../createRouter';
 // import { postRouter } from './post';

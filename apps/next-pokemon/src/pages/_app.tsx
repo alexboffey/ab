@@ -9,7 +9,6 @@ import { AppType } from 'next/dist/shared/lib/utils';
 import type { AppRouter } from 'server/routers/_app';
 
 const { publicRuntimeConfig } = getConfig();
-
 const { APP_URL, WS_URL } = publicRuntimeConfig;
 
 const MyApp: AppType = ({ Component, pageProps }) => {

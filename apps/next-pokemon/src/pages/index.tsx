@@ -1,8 +1,5 @@
 import { trpc } from '../utils/trpc';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import Head from 'next/head';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 export default function IndexPage() {
   const pokemon = trpc.useQuery(['pokemon']);
@@ -78,6 +75,10 @@ export default function IndexPage() {
     </main>
   );
 }
+
+// import Head from 'next/head';
+// import { useCallback, useEffect, useRef, useState } from 'react';
+// import { ReactQueryDevtools } from 'react-query/devtools';
 
 // function AddMessageForm({ onMessagePost }: { onMessagePost: () => void }) {
 //   const addPost = trpc.useMutation('post.add');

@@ -12,10 +12,8 @@ export const prisma = new PrismaClient({
       ? ['query', 'error', 'warn']
       : ['error'],
 });
-/**
- * Creates context for an incoming request
- * @link https://trpc.io/docs/context
- */
+
+// @link https://trpc.io/docs/context
 export const createContext = async ({
   req,
   res,
