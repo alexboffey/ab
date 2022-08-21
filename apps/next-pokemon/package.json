@@ -1,6 +1,6 @@
 {
-  "name": "@examples/next-starter-websockets",
-  "version": "9.27.1",
+  "name": "@ab/next-pokemon",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "build:1-generate": "prisma generate",
