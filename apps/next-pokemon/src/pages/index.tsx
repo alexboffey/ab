@@ -11,24 +11,28 @@ export default function IndexPage() {
         <h1 className="text-3xl font-bold text-gray-800">Pokemon</h1>
         <nav className="ml-auto">
           {!session?.user && (
-            <button
-              onClick={() => signIn()}
-              data-testid="signin"
-              className="px-4 bg-slate-300 rounded h-full"
-            >
-              Sign In
-            </button>
-          )}
-          {!!session?.user && (
-            <div className="flex items-center">
-              <p className="mr-5">Signed in as {session.user.name}</p>
+            <>
               <button
-                onClick={() => signOut()}
-                data-testid="signout"
+                onClick={() => signIn('github')}
+                data-testid="signin"
                 className="px-4 bg-slate-300 rounded h-full"
               >
-                Sign Out
+                Sign In
               </button>
+            </>
+          )}
+          {!!session?.user && (
+            <div className="flex flex-col">
+              <div className="flex items-center">
+                <p className="mr-4">{session.user.name}</p>
+                {session.user.image && (
+                  <img
+                    className="w-8 h-8 rounded-full shadow-md"
+                    referrerPolicy="no-referrer"
+                    src={session.user.image}
+                  />
+                )}
+              </div>
             </div>
           )}
         </nav>
@@ -40,7 +44,6 @@ export default function IndexPage() {
           <header className="py-10">
             <p>Showing {pokemon.data.length} Pokemon</p>
           </header>
-
           <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 ">
             {pokemon.data.map((poke) => {
               return (

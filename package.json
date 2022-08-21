@@ -12,6 +12,7 @@
   "scripts": {
     "build": "yarn workspace app build",
     "db": "pscale connect pokemon init --port 3309",
+    "dev": "yarn dev:next-pokemon",
     "dev:vite-pokemon": "concurrently \"yarn dev:vite-pokemon-app\" \"yarn dev:vite-pokemon-api\"",
     "dev:vite-pokemon-app": "yarn workspace @ab/vite-pokemon-app dev",
     "dev:vite-pokemon-api": "yarn workspace @ab/vite-pokemon-api dev",
