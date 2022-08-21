@@ -65,9 +65,9 @@ export default function IndexPage() {
                     />
                   </main>
                   <footer>
-                    <pre className="h-[10rem]  overflow-scroll text-sm bg-slate-100 p-3">
+                    {/* <pre className="h-[10rem]  overflow-scroll text-sm bg-slate-100 p-3">
                       <code>{JSON.stringify(poke, null, 2)}</code>
-                    </pre>
+                    </pre> */}
                   </footer>
                 </article>
               );
