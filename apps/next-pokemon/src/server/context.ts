@@ -6,7 +6,7 @@ import { IncomingMessage } from 'http';
 import { getSession } from 'next-auth/react';
 import ws from 'ws';
 
-const prisma = new PrismaClient({
+export const prisma = new PrismaClient({
   log:
     process.env.NODE_ENV === 'development'
       ? ['query', 'error', 'warn']

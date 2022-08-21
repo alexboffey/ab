@@ -67,7 +67,7 @@ export default withTRPC<AppRouter>({
       /**
        * @link https://trpc.io/docs/data-transformers
        */
-      transformer: superjson,
+      // transformer: superjson,
       /**
        * @link https://react-query.tanstack.com/reference/QueryClient
        */
