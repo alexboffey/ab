@@ -41,17 +41,16 @@ export const appRouter = createRouter()
       const currentUser = await prisma.user.findUnique({
         where: { email: ctx.session?.user?.email },
       });
-      if (!currentUser?.id) {
-        throw new Error("user doesnt have an id");
-      }
-      const currentUserPokemon = await prisma.userPokemon.findUnique({
-        where: { userId: currentUser.id },
-      });
-      const p = await prisma.pokemon.findMany({
-        where: { UserPokemon: { id: currentUserPokemon?.id ?? "" } },
+
+      const userPokemon = await prisma.userPokemon.findMany({
+        where: { userId: currentUser?.id },
       });
 
-      return { ...currentUser, pokemon: p.map(withImages) };
+      const pokemon = await prisma.pokemon.findMany({
+        where: { UserPokemon: { some: { userId: currentUser?.id } } },
+      });
+
+      return { ...currentUser, userPokemon, pokemon: pokemon.map(withImages) };
     },
   })
   .query("users", {

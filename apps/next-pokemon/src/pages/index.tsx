@@ -9,8 +9,6 @@ export default function IndexPage() {
 
   const currentUser = trpc.useQuery(["currentUser"]);
 
-  const currentUserPokemon = currentUser.data?.pokemon;
-
   return (
     <main className="bg-slate-100 p-8 min-h-screen">
       <header className="flex items-center">
@@ -59,15 +57,19 @@ export default function IndexPage() {
                     {(currentUser.data?.pokemon ?? [])
                       .map((p) => p.id)
                       .includes(poke.id) ? (
-                      <Icon
-                        className="text-green-600 absolute bottom-4 right-4"
-                        name="pokeball"
-                      />
+                      <span className="absolute bottom-2 right-2 bg-slate-100 p-1 rounded-full shadow-lg">
+                        <Icon
+                          className="text-green-600 text-xl"
+                          name="pokeball"
+                        />
+                      </span>
                     ) : (
-                      <Icon
-                        className="text-slate-900 absolute bottom-4 right-4"
-                        name="pokeball"
-                      />
+                      <span className="absolute bottom-2 right-2 bg-slate-100 p-1 rounded-full shadow-lg">
+                        <Icon
+                          className="text-slate-900 text-xl"
+                          name="pokeball"
+                        />
+                      </span>
                     )}
                     <img src={poke.thumbnail} alt={poke.name} />
                   </div>

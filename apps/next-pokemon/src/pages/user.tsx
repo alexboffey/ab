@@ -6,7 +6,6 @@ import { Icon } from "components/Icon";
 export default function User() {
   const { data: session } = useSession();
   const currentUser = trpc.useQuery(["currentUser"]);
-  const pokemon = trpc.useQuery(["pokemon"]);
 
   return (
     <main className="bg-slate-100 p-8 min-h-screen">
@@ -60,14 +59,26 @@ export default function User() {
                     />
                     <img src={poke.sprite} alt={poke.name} />
                   </div>
-                  <p className="mt-auto">
+                  <div className="mt-auto">
                     <span className="text-sm font-medium leading-loose tracking-wider">
                       {poke.name}
                     </span>
                     <span className="block leading-none text-xs font-medium text-slate-700">
                       #{poke.num}
                     </span>
-                  </p>
+                    {currentUser.data?.userPokemon && (
+                      <p className="text-xs font-medium text-slate-900 leading-loose">
+                        <span>Qty: </span>
+                        <span>
+                          {
+                            currentUser.data.userPokemon.find(
+                              (p) => p.pokemonId === poke.id,
+                            )?.quantity
+                          }
+                        </span>
+                      </p>
+                    )}
+                  </div>
                 </main>
               );
             })}

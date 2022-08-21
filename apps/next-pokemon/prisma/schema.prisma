@@ -25,20 +25,22 @@ model User {
 }
 
 model UserPokemon {
-  id        String    @id @default(uuid())
-  User      User      @relation(fields: [userId], references: [id])
-  userId    String    @unique
-  pokemon   Pokemon[]
+  id        String   @id @default(uuid())
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  pokemon   Pokemon  @relation(fields: [pokemonId], references: [id])
+  pokemonId String
+  quantity  Int      @default(0)
   // To return `Date`s intact through the API we need to add data transformers
   // https://trpc.io/docs/data-transformers
-  createdAt DateTime  @unique @default(now())
-  updatedAt DateTime  @unique @default(now())
+  createdAt DateTime @unique @default(now())
+  updatedAt DateTime @unique @default(now())
 }
 
 model Pokemon {
-  id                   String       @id @default(uuid())
-  num                  String       @unique
-  name                 String       @unique
+  id                   String        @id @default(uuid())
+  num                  String        @unique
+  name                 String        @unique
   height               String
   weight               String
   candy                Candy
@@ -51,15 +53,15 @@ model Pokemon {
   types                Type[]
   weaknesses           Weakness[]
   // Self Reference 
-  evolutions           Pokemon[]    @relation("evolutions")
-  next_evolution       Pokemon?     @relation("evolutions", fields: [next_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  evolutions           Pokemon[]     @relation("evolutions")
+  next_evolution       Pokemon?      @relation("evolutions", fields: [next_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   next_evolution_id    String?
-  previous_evolutions  Pokemon[]    @relation("previous_evolutions")
-  prev_evolution       Pokemon?     @relation("previous_evolutions", fields: [prev_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  previous_evolutions  Pokemon[]     @relation("previous_evolutions")
+  prev_evolution       Pokemon?      @relation("previous_evolutions", fields: [prev_evolution_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   prev_evolution_id    String?
   userId               Int?
-  UserPokemon          UserPokemon? @relation(fields: [userPokemonCreatedAt], references: [createdAt])
   userPokemonCreatedAt DateTime?
+  UserPokemon          UserPokemon[]
 }
 
 enum TypeName {
