@@ -27,7 +27,7 @@ model User {
 model UserPokemon {
   id        String   @id @default(uuid())
   User      User     @relation(fields: [userId], references: [id])
-  userId    String   @unique
+  userId    String
   pokemon   Pokemon  @relation(fields: [pokemonId], references: [id])
   pokemonId String
   quantity  Int      @default(0)
@@ -41,6 +41,7 @@ model Pokemon {
   id                   String        @id @default(uuid())
   num                  String        @unique
   name                 String        @unique
+  quantity             Int           @default(1000)
   height               String
   weight               String
   candy                Candy
