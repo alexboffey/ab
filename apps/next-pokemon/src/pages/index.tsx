@@ -8,6 +8,7 @@ export default function IndexPage() {
 
   return (
     <main className="bg-slate-100 p-8 h-full">
+      <Debug debug={session} />
       <header className="flex items-center">
         <h1 className="text-3xl font-bold text-gray-800">Pokemon</h1>
         <nav className="ml-auto">
@@ -66,7 +67,6 @@ export default function IndexPage() {
                     />
                   </main>
                   <footer>
-                    <Debug input="hey" />
                     {/* <pre className="h-[10rem]  overflow-scroll text-sm bg-slate-100 p-3">
                       <code>{JSON.stringify(poke, null, 2)}</code>
                     </pre> */}
