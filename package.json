@@ -1,20 +1,15 @@
 {
-  "name": "vite-workspaces",
+  "name": "@ab/root",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "private": "true",
   "workspaces": [
-    "app",
-    "api",
     "packages/*",
-    "services/*"
+    "services/*",
+    "apps/*"
   ],
   "scripts": {
-    "start": "yarn dev",
-    "start:ui": "yarn workspace @ab/ui start",
-    "start:server": "yarn workspace api start",
-    "dev": "concurrently -k -p @ab -c \"blueBright\" \"yarn workspace api dev\" \"yarn workspace app dev\"",
     "build": "yarn workspace app build"
   },
   "devDependencies": {
