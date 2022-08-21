@@ -44,15 +44,9 @@ function getEndingLink() {
 
 export default withTRPC<AppRouter>({
   config({ ctx }) {
-    /**
-     * If you want to use SSR, you need to use the server's full URL
-     * @link https://trpc.io/docs/ssr
-     */
-
+    // @link https://trpc.io/docs/ssr
     return {
-      /**
-       * @link https://trpc.io/docs/links
-       */
+      // @link https://trpc.io/docs/links
       links: [
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
@@ -63,12 +57,8 @@ export default withTRPC<AppRouter>({
         }),
         getEndingLink(),
       ],
-      /**
-       * @link https://trpc.io/docs/data-transformers
-       */
-      /**
-       * @link https://react-query.tanstack.com/reference/QueryClient
-       */
+      // @link https://trpc.io/docs/data-transformers
+      // @link https://react-query.tanstack.com/reference/QueryClient
       queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
       headers: () => {
         if (ctx?.req) {
@@ -82,8 +72,6 @@ export default withTRPC<AppRouter>({
       },
     };
   },
-  /**
-   * @link https://trpc.io/docs/ssr
-   */
+  // @link https://trpc.io/docs/ssr
   ssr: true,
 })(MyApp);
