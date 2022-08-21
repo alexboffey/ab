@@ -9,9 +9,9 @@ type PokemonProps = {
 export const Pokemon = ({ poke, stats = null }: PokemonProps) => {
   return (
     <main className="min-h-[8rem] flex flex-col flex-wrap items-center relative">
-      <article className="relative p-4">
+      <article className="relative p-2 bg-white rounded shadow-md">
         {stats}
-        <img className="max-w-[3.8rem]" src={poke.thumbnail} alt={poke.name} />
+        <img className="max-w-[3rem]" src={poke.thumbnail} alt={poke.name} />
       </article>
       <footer className="mt-auto">
         <p className="text-sm font-medium leading-loose tracking-wider">

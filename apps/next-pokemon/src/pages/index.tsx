@@ -29,7 +29,7 @@ function App() {
                     currentUser.data.userPokemon.find(
                       (p) => p.pokemonId === poke.id,
                     )?.quantity && (
-                      <p className="absolute -top-2 -left-2 text-xs font-medium  leading-loose bg-emerald-600 text-white flex items-center px-2 rounded-xl">
+                      <p className="absolute -top-2 -left-3 text-xs shadow font-medium  leading-loose bg-emerald-600 text-white flex items-center px-2 rounded-xl">
                         <Icon className="mr-1" name="qty" />
                         <span>
                           {
@@ -43,18 +43,12 @@ function App() {
                   {(currentUser.data?.pokemon ?? [])
                     .map((p) => p.id)
                     .includes(poke.id) ? (
-                    <span className="absolute bottom-2 right-2 bg-slate-100 p-1 rounded-full shadow-lg">
-                      <Icon
-                        className="text-green-600 text-sm"
-                        name="pokeball"
-                      />
+                    <span className="absolute -bottom-1 -right-2 bg-slate-100 p-1 rounded-full shadow-lg">
+                      <Icon className="text-green-600" name="pokeball" />
                     </span>
                   ) : (
-                    <span className="absolute bottom-2 right-2 bg-slate-100 p-1 rounded-full shadow-lg">
-                      <Icon
-                        className="text-slate-900 text-sm"
-                        name="pokeball"
-                      />
+                    <span className="absolute -bottom-1 -right-2 bg-slate-100 p-1 rounded-full shadow-lg">
+                      <Icon className="text-slate-900" name="pokeball" />
                     </span>
                   )}
                 </>
