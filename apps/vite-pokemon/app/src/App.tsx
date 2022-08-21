@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { trpc } from "./utils/trpc";
 import json from "../../api/data/pokemon.json";
+import { Debug } from "@ab/debug";
 
 const trpcClient = trpc.createClient({
   url: "http://localhost:4444/trpc",
@@ -11,10 +12,9 @@ const queryClient = new QueryClient();
 function App() {
   const pokemon = trpc.useQuery(["pokemon"]);
 
-  console.log({ json });
-
   return (
     <main className="bg-slate-100 p-8 h-full">
+      <Debug debug={json} />
       {pokemon.isLoading && <p>Loading...</p>}
       {pokemon.data && (
         <>
