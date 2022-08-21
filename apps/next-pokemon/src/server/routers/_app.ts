@@ -32,7 +32,7 @@ export const appRouter = createRouter()
    * Add data transformers
    * @link https://trpc.io/docs/data-transformers
    */
-  .transformer(superjson)
+  // .transformer(superjson)
   /**
    * Optionally do custom error (type safe!) formatting
    * @link https://trpc.io/docs/error-formatting
