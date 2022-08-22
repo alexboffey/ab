@@ -1,5 +1,5 @@
 import { trpc } from "../utils/trpc";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export const Header = () => {
@@ -15,20 +15,24 @@ export const Header = () => {
       </Link>
       {!session?.user && <button onClick={() => signIn()}>Sign In</button>}
       {session?.user && (
-        <Link href="/user">
-          <div className="flex items-center cursor-pointer">
-            <>
-              <p className="mr-4">{session?.user.name}</p>
-              {session?.user.image && (
-                <img
-                  className="w-8 h-8 rounded-full shadow-md"
-                  referrerPolicy="no-referrer"
-                  src={session.user.image}
-                />
-              )}
-            </>
-          </div>
-        </Link>
+        <div className="flex items-center cursor-pointer">
+          <>
+            <p className="mr-4">{session?.user.name}</p>
+            {session?.user.image && (
+              <img
+                className="w-8 h-8 rounded-full shadow-md"
+                referrerPolicy="no-referrer"
+                src={session.user.image}
+              />
+            )}
+            <button
+              className="bg-slate-200 px-4 rounded shadow-md ml-4 text-sm"
+              onClick={() => signOut()}
+            >
+              Sign Out
+            </button>
+          </>
+        </div>
       )}
     </header>
   );

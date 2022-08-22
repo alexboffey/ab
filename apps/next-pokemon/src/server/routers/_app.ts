@@ -7,6 +7,8 @@ import { createRouter } from "../createRouter";
 import { prisma } from "../context";
 import { z } from "zod";
 
+prisma.userPokemon.deleteMany({ where: { pokemon: { name: "Charizard" } } });
+
 const imageSrc =
   "https://raw.githubusercontent.com/fanzeyi/pokemon.json/master";
 
@@ -38,19 +40,34 @@ export const appRouter = createRouter()
   })
   .query("currentUser", {
     resolve: async ({ ctx }) => {
+      if (!ctx.session?.user) {
+        return;
+      }
+
       const currentUser = await prisma.user.findUnique({
-        where: { email: ctx.session?.user?.email },
+        where: { email: ctx.session.user?.email ?? "" },
       });
+
+      return currentUser;
+    },
+  })
+  .query("userPokemon", {
+    resolve: async ({ ctx }) => {
+      if (!ctx.session?.user) {
+        return;
+      }
+
+      const currentUser = await prisma.user.findUnique({
+        where: { email: ctx.session.user?.email ?? "" },
+      });
+
+      if (!currentUser) return;
 
       const userPokemon = await prisma.userPokemon.findMany({
-        where: { userId: currentUser?.id },
+        where: { userId: currentUser.id },
       });
 
-      const pokemon = await prisma.pokemon.findMany({
-        where: { UserPokemon: { some: { userId: currentUser?.id } } },
-      });
-
-      return { ...currentUser, userPokemon, pokemon: pokemon.map(withImages) };
+      return { currentUser, userPokemon };
     },
   })
   .query("users", {

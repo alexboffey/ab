@@ -1,18 +1,26 @@
 import NextAuth from "next-auth";
 import { AppProviders } from "next-auth/providers";
 import GoogleProvider from "next-auth/providers/google";
+import { prisma } from "../../../server/context";
 
-// import CredentialsProvider from 'next-auth/providers/credentials';
-
+export interface GoogleProfile {
+  iss: string;
+  azp: string;
+  aud: string;
+  sub: string;
+  email: string;
+  email_verified: boolean;
+  at_hash: string;
+  name: string;
+  picture: string;
+  given_name: string;
+  family_name: string;
+  locale: string;
+  iat: number;
+  exp: number;
+}
 // let useMockProvider = process.env.NODE_ENV === 'test';
-const {
-  // GITHUB_CLIENT_ID,
-  // GITHUB_SECRET,
-  // NODE_ENV,
-  // APP_ENV,
-  GOOGLE_OAUTH_CLIENT_ID,
-  GOOGLE_OATH_CLIENT_SECRET,
-} = process.env;
+const { GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OATH_CLIENT_SECRET } = process.env;
 const providers: AppProviders = [];
 
 if (!!GOOGLE_OAUTH_CLIENT_ID && !!GOOGLE_OATH_CLIENT_SECRET) {
@@ -20,55 +28,42 @@ if (!!GOOGLE_OAUTH_CLIENT_ID && !!GOOGLE_OATH_CLIENT_SECRET) {
     GoogleProvider({
       clientId: GOOGLE_OAUTH_CLIENT_ID,
       clientSecret: GOOGLE_OATH_CLIENT_SECRET,
+      profile: async (p) => {
+        const profile = p as GoogleProfile;
+        // Find / add user from db
+        const user = await prisma.user.findUnique({
+          where: {
+            email: profile.email,
+          },
+        });
+
+        if (user) {
+          return {
+            id: user.id,
+            email: user.email,
+            image: user.img,
+            name: user.name,
+          };
+        }
+
+        const newUser = await prisma.user.create({
+          data: {
+            email: profile.email,
+            name: profile.name,
+            img: profile.picture,
+          },
+        });
+
+        return {
+          id: newUser.id,
+          email: newUser.email,
+          image: newUser.img,
+          name: newUser.name,
+        };
+      },
     }),
   );
 }
-
-// if (
-//   (NODE_ENV !== 'production' || APP_ENV === 'test') &&
-//   (!GITHUB_CLIENT_ID || !GITHUB_SECRET)
-// ) {
-//   console.log('⚠️ Using mocked GitHub auth correct credentials were not added');
-//   useMockProvider = true;
-// }
-
-// if (useMockProvider) {
-//   providers.push(
-//     CredentialsProvider({
-//       id: 'github',
-//       name: 'Mocked GitHub',
-//       async authorize(credentials) {
-//         const user = {
-//           id: credentials?.name,
-//           name: credentials?.name,
-//           email: credentials?.name,
-//         };
-//         return user;
-//       },
-//       credentials: {
-//         name: { type: 'test' },
-//       },
-//     }),
-//   );
-// } else {
-//   if (!GITHUB_CLIENT_ID || !GITHUB_SECRET) {
-//     throw new Error('GITHUB_CLIENT_ID and GITHUB_SECRET must be set');
-//   }
-//   providers.push(
-//     GithubProvider({
-//       clientId: GITHUB_CLIENT_ID,
-//       clientSecret: GITHUB_SECRET,
-//       profile(profile) {
-//         return {
-//           id: profile.id,
-//           name: profile.login,
-//           email: profile.email,
-//           image: profile.avatar_url,
-//         } as any;
-//       },
-//     }),
-//   );
-// }
 
 export default NextAuth({
   providers,

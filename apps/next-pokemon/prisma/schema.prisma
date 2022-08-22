@@ -15,6 +15,7 @@ model User {
   id        String        @id @default(uuid())
   email     String        @unique
   name      String?
+  img       String?
   // Boolean example
   // isAdmin Boolean
   pokemon   UserPokemon[]
@@ -42,14 +43,14 @@ model Pokemon {
   num                  String        @unique
   name                 String        @unique
   quantity             Int           @default(1000)
-  height               String
-  weight               String
-  candy                Candy
-  candy_count          String
-  egg                  String
-  spawn_chance         Float
-  avg_spawns           Float
-  spawn_time           String
+  height               String?
+  weight               String?
+  candy                Candy?
+  candy_count          String?
+  egg                  String?
+  spawn_chance         Float?
+  avg_spawns           Float?
+  spawn_time           String?
   // One to Many
   types                Type[]
   weaknesses           Weakness[]
